@@ -1,18 +1,28 @@
 {
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Databricks AI Gateway proxy for Codex CLI — sets up auth and routing via your Databricks workspace",
   "homepage": "https://github.com/IceRhymers/databricks-codex",
   "license": "MIT",
   "architecture": {
     "64bit": {
-      "url": "https://github.com/IceRhymers/databricks-codex/releases/download/v0.7.1/databricks-codex-windows-amd64.exe",
-      "hash": "72b0843756067cf2202b7516f14f875411e3c73ecc1221bc472a14b2a4770c77",
-      "bin": [["databricks-codex-windows-amd64.exe", "databricks-codex"]]
+      "url": "https://github.com/IceRhymers/databricks-codex/releases/download/v0.8.0/databricks-codex-windows-amd64.exe",
+      "hash": "1c8224951ae1efaa26df99a6873f4a65bd92b21eb52d62b7d329b85ec5a90de7",
+      "bin": [
+        [
+          "databricks-codex-windows-amd64.exe",
+          "databricks-codex"
+        ]
+      ]
     },
     "arm64": {
-      "url": "https://github.com/IceRhymers/databricks-codex/releases/download/v0.7.1/databricks-codex-windows-arm64.exe",
-      "hash": "8a5b65a4189e2b6967aafe5fe78dd59d961005c551a841dbbf23ba715782e7b5",
-      "bin": [["databricks-codex-windows-arm64.exe", "databricks-codex"]]
+      "url": "https://github.com/IceRhymers/databricks-codex/releases/download/v0.8.0/databricks-codex-windows-arm64.exe",
+      "hash": "9c5d78a13c2340e176f195e8f2dcb995aefc17f36f766de20f4e0626f3b48250",
+      "bin": [
+        [
+          "databricks-codex-windows-arm64.exe",
+          "databricks-codex"
+        ]
+      ]
     }
   },
   "checkver": {
