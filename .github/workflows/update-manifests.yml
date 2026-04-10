@@ -1,0 +1,101 @@
+name: Update Scoop Manifests
+
+on:
+  repository_dispatch:
+    types:
+      - update-databricks-claude
+      - update-databricks-codex
+      - update-databricks-opencode
+  workflow_dispatch:
+    inputs:
+      binary:
+        description: 'Binary to update (databricks-claude, databricks-codex, databricks-opencode)'
+        required: true
+        type: choice
+        options:
+          - databricks-claude
+          - databricks-codex
+          - databricks-opencode
+      version:
+        description: 'Version (without v prefix, e.g. 0.11.0)'
+        required: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve binary and version
+        id: vars
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            BINARY="${{ github.event.client_payload.binary }}"
+            VERSION="${{ github.event.client_payload.version }}"
+          else
+            BINARY="${{ inputs.binary }}"
+            VERSION="${{ inputs.version }}"
+          fi
+          # Derive GitHub repo slug from binary name
+          case "$BINARY" in
+            databricks-claude)   REPO="IceRhymers/databricks-claude" ;;
+            databricks-codex)    REPO="IceRhymers/databricks-codex" ;;
+            databricks-opencode) REPO="IceRhymers/databricks-opencode" ;;
+            *) echo "Unknown binary: $BINARY"; exit 1 ;;
+          esac
+          echo "binary=$BINARY" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "repo=$REPO" >> "$GITHUB_OUTPUT"
+
+      - name: Download Windows binaries and compute SHA256
+        id: hashes
+        run: |
+          BINARY="${{ steps.vars.outputs.binary }}"
+          VERSION="${{ steps.vars.outputs.version }}"
+          BASE="https://github.com/${{ steps.vars.outputs.repo }}/releases/download/v${VERSION}"
+
+          curl -fsSL "${BASE}/${BINARY}-windows-amd64.exe" -o amd64.exe
+          curl -fsSL "${BASE}/${BINARY}-windows-arm64.exe" -o arm64.exe
+
+          AMD64_HASH=$(sha256sum amd64.exe | awk '{print $1}')
+          ARM64_HASH=$(sha256sum arm64.exe | awk '{print $1}')
+
+          echo "amd64_hash=$AMD64_HASH" >> "$GITHUB_OUTPUT"
+          echo "arm64_hash=$ARM64_HASH" >> "$GITHUB_OUTPUT"
+
+      - name: Update manifest
+        run: |
+          BINARY="${{ steps.vars.outputs.binary }}"
+          VERSION="${{ steps.vars.outputs.version }}"
+          REPO="${{ steps.vars.outputs.repo }}"
+          AMD64_HASH="${{ steps.hashes.outputs.amd64_hash }}"
+          ARM64_HASH="${{ steps.hashes.outputs.arm64_hash }}"
+          BASE="https://github.com/${REPO}/releases/download/v${VERSION}"
+          MANIFEST="bucket/${BINARY}.json"
+
+          # Read current manifest and update fields
+          jq \
+            --arg version "$VERSION" \
+            --arg amd64_url "${BASE}/${BINARY}-windows-amd64.exe" \
+            --arg amd64_hash "$AMD64_HASH" \
+            --arg arm64_url "${BASE}/${BINARY}-windows-arm64.exe" \
+            --arg arm64_hash "$ARM64_HASH" \
+            '.version = $version
+             | .architecture["64bit"].url = $amd64_url
+             | .architecture["64bit"].hash = $amd64_hash
+             | .architecture.arm64.url = $arm64_url
+             | .architecture.arm64.hash = $arm64_hash' \
+            "$MANIFEST" > "${MANIFEST}.tmp"
+          mv "${MANIFEST}.tmp" "$MANIFEST"
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bucket/
+          git diff --staged --quiet && echo "No changes" && exit 0
+          git commit -m "chore: update ${{ steps.vars.outputs.binary }} to v${{ steps.vars.outputs.version }}"
+          git push
