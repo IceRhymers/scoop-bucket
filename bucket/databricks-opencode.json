@@ -1,18 +1,28 @@
 {
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Databricks AI Gateway proxy for OpenCode — sets up auth and routing via your Databricks workspace",
   "homepage": "https://github.com/IceRhymers/databricks-opencode",
   "license": "MIT",
   "architecture": {
     "64bit": {
-      "url": "https://github.com/IceRhymers/databricks-opencode/releases/download/v0.4.1/databricks-opencode-windows-amd64.exe",
-      "hash": "9a2e442a64ca1096ec2ca5be46136c0a153e29134221faf4fc07a775346e05f0",
-      "bin": [["databricks-opencode-windows-amd64.exe", "databricks-opencode"]]
+      "url": "https://github.com/IceRhymers/databricks-opencode/releases/download/v0.5.0/databricks-opencode-windows-amd64.exe",
+      "hash": "3655cf3fa3815ee9548696c615eb3739178c64c24aa384fcf0c5161ef05fae36",
+      "bin": [
+        [
+          "databricks-opencode-windows-amd64.exe",
+          "databricks-opencode"
+        ]
+      ]
     },
     "arm64": {
-      "url": "https://github.com/IceRhymers/databricks-opencode/releases/download/v0.4.1/databricks-opencode-windows-arm64.exe",
-      "hash": "74c3757e5d8c6a5fdb3ffaa28945b85770c856f70c7897aa001a5a7eb0307193",
-      "bin": [["databricks-opencode-windows-arm64.exe", "databricks-opencode"]]
+      "url": "https://github.com/IceRhymers/databricks-opencode/releases/download/v0.5.0/databricks-opencode-windows-arm64.exe",
+      "hash": "a09905371e1c6f88095931262c45dfeb91f690c9ca37d2696aadbdcdc1c39ca3",
+      "bin": [
+        [
+          "databricks-opencode-windows-arm64.exe",
+          "databricks-opencode"
+        ]
+      ]
     }
   },
   "checkver": {
