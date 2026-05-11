@@ -1,12 +1,12 @@
 {
-  "version": "0.18.0",
+  "version": "0.19.0",
   "description": "Databricks AI Gateway proxy for Claude Code — sets up auth and routing via your Databricks workspace",
   "homepage": "https://github.com/IceRhymers/databricks-claude",
   "license": "MIT",
   "architecture": {
     "64bit": {
-      "url": "https://github.com/IceRhymers/databricks-claude/releases/download/v0.18.0/databricks-claude-windows-amd64.exe",
-      "hash": "9f59506158af4587dd07ffd668bad4991eb4c054cc7e55908465ffe5450ba40f",
+      "url": "https://github.com/IceRhymers/databricks-claude/releases/download/v0.19.0/databricks-claude-windows-amd64.exe",
+      "hash": "3de3d8b101239f0ac3dc9de8d7dda4ba90cfbdf150b06b84da1dee25d52a3ce2",
       "bin": [
         [
           "databricks-claude-windows-amd64.exe",
@@ -15,8 +15,8 @@
       ]
     },
     "arm64": {
-      "url": "https://github.com/IceRhymers/databricks-claude/releases/download/v0.18.0/databricks-claude-windows-arm64.exe",
-      "hash": "40e5568be93f0f27fb7dfb488ade6959b15c9d5b3c41fd685379fec8c014502e",
+      "url": "https://github.com/IceRhymers/databricks-claude/releases/download/v0.19.0/databricks-claude-windows-arm64.exe",
+      "hash": "a0b8e36eafbf7ce72ed2368855fb71d5a8d242d2abf4130617e59b834d169ba7",
       "bin": [
         [
           "databricks-claude-windows-arm64.exe",
